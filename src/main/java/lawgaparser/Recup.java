@@ -38,14 +38,12 @@ public class Recup {
         return lines;
     }
 
-
     //Etape 3: Recherche du motif identifier dans la fonction balisage si dessous, si elle troue alors retourne true -->
     private static boolean find(Pattern pattern, String chaine) {
         return pattern.matcher(chaine).find();
     }
 
-
-    //Etape 3: Choix du motif � identifier ..... -->
+    //Etape 3: Choix du motif à identifier ..... -->
     static List<Block> balisage(List<String> segments) {
         List<Block> blocsBalises = new ArrayList<>();
         int indice = 0;
