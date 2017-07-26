@@ -38,39 +38,46 @@ public class Recup {
         return lines;
     }
 
-
     //Etape 3: Recherche du motif identifier dans la fonction balisage si dessous, si elle troue alors retourne true -->
     private static boolean find(Pattern pattern, String chaine) {
         return pattern.matcher(chaine).find();
     }
 
-
-    //Etape 3: Choix du motif � identifier ..... -->
+    //Etape 3: Choix du motif à identifier ..... -->
     static List<Block> balisage(List<String> segments) {
         List<Block> blocsBalises = new ArrayList<>();
         int indice = 0;
         for (String segment : segments) {
             String prefix = segment.length() < 10 ? segment : segment.substring(0, 9);
             if (find(PATTERN_ARTICLE, prefix)) {
-                blocsBalises.add(new Block(1, "", indice));
+                blocsBalises.add(new Block(1, prefix, "", indice));
             } else if (find(PATTERN_SECTION, prefix)) {
-                blocsBalises.add(new Block(2, "", indice));
+                blocsBalises.add(new Block(2, prefix, "", indice));
+            } else if(find(PATTERN_TOTO1, prefix)){
+                blocsBalises.add(new Block(10, prefix, "", indice));
             } else if (find(PATTERN_MINUSCULE, prefix)) {
-                blocsBalises.add(new Block(3, prefix, indice));
+                blocsBalises.add(new Block(3, prefix, "", indice));
             } else if (find(PATTERN_NIVEAU3_CHIFFRE, prefix)) {
-                blocsBalises.add(new Block(4, "", indice));
+                blocsBalises.add(new Block(4, prefix, "", indice));
             } else if (find(PATTERN_NIVEAU2_CHIFFRE, prefix)) {
-                blocsBalises.add(new Block(5, "", indice));
+                blocsBalises.add(new Block(5, prefix, "", indice));
             } else if (find(PATTERN_NIVEAU1_CHIFFRE_SPACE, prefix)) {
-                blocsBalises.add(new Block(6, "", indice));
+                blocsBalises.add(new Block(6, prefix, "", indice));
             } else if (find(PATTERN_NIVEAU1_CHIFFRE, prefix)) {
-                blocsBalises.add(new Block(7, "", indice));
+                blocsBalises.add(new Block(7, prefix, "", indice));
             } else if (find(PATTERN_CHIFFRE_ROMAIN, prefix)) {
-                blocsBalises.add(new Block(8, "", indice));
+                blocsBalises.add(new Block(8, prefix, "", indice));
             } else if (find(PATTERN_MAJUSCULE, prefix)) {
-                blocsBalises.add(new Block(9, "", indice));
+                blocsBalises.add(new Block(9, prefix, "", indice));
             }
             indice++;
+        }
+        for (int i = 0; i<blocsBalises.size(); i++){
+            if(find(PATTERN_TOTO2,blocsBalises.get(i).getPrefix())){
+                if(find(PATTERN_TOTO3,blocsBalises.get(i+1).getPrefix())){
+                    blocsBalises.get(i).setMotif(10);
+                }
+            }
         }
         return blocsBalises;
     }
@@ -179,7 +186,6 @@ public class Recup {
             contenu = "";
         }
         return resultBlock;
-
     }
 
     private static void export(List<Block> nivelage, String nomFichierResultat) {
